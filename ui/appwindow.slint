@@ -1,0 +1,80 @@
+import { Button, VerticalBox, LineEdit } from "std-widgets.slint";
+export component AppWindow inherits Window {
+    in property <int> name;
+    in property <string> results:"";
+    in-out property <bool> opencurtain;
+     callback divide-income(string);
+    background: #354356;
+    GridLayout {
+        padding: 50px;
+        spacing: 25px ;
+        Row{
+            Text {
+                color: white;
+                text: "Enter the amount you got";
+                horizontal-alignment:center;
+                font-size: 24px;
+                font-weight: 900;
+                
+            }
+        }
+        Row{
+            income := LineEdit {
+                horizontal-alignment: center;
+                font-size: 16px;
+             placeholder-text: "Enter your income";
+             height: 35px;
+            }
+        }
+        Row{
+            Button {
+                text: "Calculate";
+                primary: true;
+                height: 35px;
+                clicked => {
+                    root.opencurtain= !root.opencurtain;
+                    divide-income(income.text)
+                }
+            }
+        }
+        Row{
+            VerticalBox {
+                Rectangle {
+                    height: 100px;
+                    background: white;
+                    Text {
+                        color: black;
+                        font-size: 16px;
+                        font-weight: 500;
+                        text: root.results;
+                    }
+                    Rectangle {
+                    background: black;
+                    x:0;
+                    width: opencurtain ? 0px:parent.width/2;
+                    height: parent.height;
+                    animate width {
+                         duration: 250ms;easing: ease-in ;
+
+                    }
+
+                    }
+                    Rectangle {
+                    background: black;
+                    x:opencurtain ? parent.width : parent.width/2;
+                    width: opencurtain ? 0px : parent.width/2;
+                    height: parent.height;
+                    animate  width {
+                         duration: 250ms;easing: ease-in;
+
+                    }
+                    animate x {
+                        duration: 250ms;easing: ease-in;
+                    }
+                    }
+                }
+            }
+            
+    }
+}
+}
